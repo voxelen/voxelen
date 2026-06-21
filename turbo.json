@@ -1,0 +1,14 @@
+{
+	"$schema": "./node_modules/turbo/schema.json",
+	"ui": "tui",
+	"globalEnv": ["NODE_ENV", "HOSTNAME", "PORT"],
+	"noUpdateNotifier": true,
+	"tasks": {
+		"dev": { "cache": false, "persistent": true },
+		"build": { "dependsOn": ["^build"] },
+		"start": { "persistent": true },
+		"format": { "dependsOn": ["^format"] },
+		"check": { "dependsOn": ["^check"] },
+		"type-check": { "dependsOn": ["^type-check"] }
+	}
+}
