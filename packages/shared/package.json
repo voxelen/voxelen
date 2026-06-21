@@ -1,0 +1,20 @@
+{
+  "name": "@repo/shared",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "format": "biome format --write",
+    "check": "biome check --write",
+    "type-check": "tsc --noEmit"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./constants": "./constants/index.ts",
+    "./validation": "./validation/index.ts",
+    "./types": "./types/index.ts",
+    "./i18n": "./i18n/index.ts"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  }
+}
