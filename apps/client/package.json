@@ -6,6 +6,8 @@
     "dev": "bunx -b vite",
     "build": "bunx -b vite build",
     "start": "vite preview",
+    "predeploy": "VITE_BASE=/seed-atlas bun run build",
+    "deploy": "gh-pages -d dist --nojekyll",
     "format": "biome format --write",
     "check": "biome check --write",
     "type-check": "tsc --noEmit"
@@ -29,6 +31,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "gh-pages": "^6.3.0",
     "sass-embedded": "^1.98.0",
     "vite": "^8.0.16"
   }
