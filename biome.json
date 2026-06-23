@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!dist", "!cubiomes"]
+    "includes": ["**", "!node_modules", "!dist", "!packages/engine-wasm/cubiomes"]
   },
   "formatter": {
     "enabled": true,

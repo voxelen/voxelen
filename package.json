@@ -1,7 +1,7 @@
 {
   "name": "seed-atlas",
   "description": "Modern seed mapping tool for discovering Minecraft biomes and structures with ease.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "packageManager": "bun@1.3.14",
   "scripts": {
