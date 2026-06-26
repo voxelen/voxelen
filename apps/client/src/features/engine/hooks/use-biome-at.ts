@@ -1,8 +1,8 @@
-import type { GetBiomeAtInput } from "@repo/engine-wasm";
+import type { CommonContext } from "@repo/shared/validation";
 import { useEffect, useState } from "react";
 import { useWasmEngine } from "../ui/wasm-engine";
 
-export function useBiomeAt(input: GetBiomeAtInput) {
+export function useBiomeAt(input: CommonContext) {
   const wasm = useWasmEngine();
   const [state, setState] = useState<number | undefined>();
 

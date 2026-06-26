@@ -1,3 +1,4 @@
+import type { CommonContext } from "@repo/shared/validation";
 import engineWasmUrl from "../dist/engine.wasm?url";
 
 // ========== Module singleton ==========
@@ -13,9 +14,10 @@ const wasmModule = (async () => {
 // Add new C exports here
 const EXPORTS: Record<string, { ret: string; args: string[] }> = {
   get_biome_at: { ret: "number", args: Array(7).fill("number") },
-  // structure_finder
-  // biome_finder
-  // render_map
+  // search_targets
+  // render_markers
+  // render_tile
+  // free_buffer
 };
 
 const wasmRegistry = wasmModule.then((mod) => {
@@ -24,23 +26,23 @@ const wasmRegistry = wasmModule.then((mod) => {
 });
 
 // ========== Engine API ==========
-export type GetBiomeAtInput = {
-  versionId: number;
-  dimension: number;
-  seed: string | bigint;
-  x: number;
-  y: number;
-  z: number;
-};
-
 export type WasmEngine = Awaited<ReturnType<typeof createWasmEngine>>;
 
 export const createWasmEngine = () =>
   wasmRegistry.then((module) => ({
     // Add new methods here
-    getBiomeAt({ versionId, dimension, seed, x, y, z }: GetBiomeAtInput) {
-      const s = BigInt(seed) & ((1n << 64n) - 1n);
+    getBiomeAt(ctx: CommonContext) {
+      const s = BigInt(ctx.seed) & ((1n << 64n) - 1n);
       const [seedHi, seedLo] = [Number(s >> 32n), Number(s & 0xffffffffn)];
-      return module.get_biome_at(versionId, dimension, seedHi, seedLo, x, y, z);
+      return module.get_biome_at(
+        ctx.versionId,
+        ctx.dimension,
+        seedHi,
+        seedLo,
+        ctx.isLargeBiome ? 1 : 0,
+        ctx.coordinates.x,
+        ctx.biomeHeight,
+        ctx.coordinates.z,
+      );
     },
   }));

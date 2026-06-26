@@ -10,5 +10,8 @@
   },
   "exports": {
     ".": "./src/engine.ts"
+  },
+  "dependencies": {
+    "@repo/shared": "workspace:*"
   }
 }

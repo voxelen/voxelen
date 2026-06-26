@@ -41,6 +41,9 @@
     "packages/engine-wasm": {
       "name": "@repo/engine-wasm",
       "version": "1.0.0",
+      "dependencies": {
+        "@repo/shared": "workspace:*",
+      },
     },
     "packages/shared": {
       "name": "@repo/shared",
