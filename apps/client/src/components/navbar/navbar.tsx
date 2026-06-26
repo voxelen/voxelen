@@ -1,6 +1,6 @@
 import { AppShell, Divider, ScrollArea, SegmentedControl } from "@mantine/core";
 import { useState } from "react";
-import { MapControls } from "@/features/map-core";
+import { MapControls } from "@/features/map-manager";
 import { Header } from "../header";
 
 export const NavBar = () => {

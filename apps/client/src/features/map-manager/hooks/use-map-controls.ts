@@ -3,7 +3,7 @@ import { MAP_CORE } from "@repo/shared/constants";
 import { useAtom } from "jotai/react";
 import * as store from "../store";
 
-export const useMapState = () => {
+export const useMapControls = () => {
   const [seed, setSeed] = useAtom(store.seedAtom);
   const [seedValue] = useDebouncedValue(seed, 500);
   const [versionId, setVersionId] = useAtom(store.versionIdAtom);

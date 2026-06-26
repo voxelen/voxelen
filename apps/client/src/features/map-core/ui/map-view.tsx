@@ -2,10 +2,10 @@ import { ActionIcon, Badge, Card, Center, Group, Text } from "@mantine/core";
 import { BIOMES } from "@repo/shared/constants";
 import { Iconify } from "@/components/iconify";
 import { useBiomeAt } from "@/features/engine";
-import { useMapState } from "../hooks";
+import { useMapControls } from "@/features/map-manager";
 
 export const MapView = () => {
-  const controls = useMapState();
+  const controls = useMapControls();
   const biomeId = useBiomeAt(controls.values);
 
   const biome = BIOMES.find((biome) => biome.id === biomeId);

@@ -12,10 +12,10 @@ import {
   TextInput,
 } from "@mantine/core";
 import { BIOMES, MINECRAFT_VERSIONS, STRUCTURES } from "@repo/shared/constants";
-import { useMapState } from "../hooks";
+import { useMapControls } from "../hooks";
 
 export const MapControls = () => {
-  const state = useMapState();
+  const state = useMapControls();
 
   return (
     <Stack mt={10} gap="sm">
