@@ -24,10 +24,10 @@ WORKDIR /build/apps/client
 RUN bun run build
 
 # Stage 3: Production Image
-FROM nginx:1.30.3-alpine-slim
+FROM alpine:3.22
 
 # Image info
-ARG IMAGE_VERSION=0.0.1
+ARG IMAGE_VERSION=1.0.0
 LABEL org.opencontainers.image.title="Voxelen" \
   org.opencontainers.image.description="Modern seed mapping tool for discovering Minecraft biomes and structures with ease." \
   org.opencontainers.image.author="Ibrahim Megahed <codjix@gmail.com>" \
@@ -35,8 +35,14 @@ LABEL org.opencontainers.image.title="Voxelen" \
   org.opencontainers.image.url="https://voxelen.github.io" \
   org.opencontainers.image.version="${IMAGE_VERSION}" \
   org.opencontainers.image.vendor="voxelen" \
-  org.opencontainers.image.licenses="MIT" \
-  bun.version="1.3.14"
+  org.opencontainers.image.licenses="MIT"
 
 # Copy build output
 COPY --from=builder /build/apps/client/dist /usr/share/nginx/html
+COPY ./docker/nginx.conf /etc/nginx/http.d/default.conf
+
+RUN apk add --no-cache nginx
+
+EXPOSE 8000
+
+CMD ["nginx", "-g", "daemon off;"]

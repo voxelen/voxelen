@@ -6,6 +6,7 @@
     "dev": "bunx -b vite",
     "build": "bunx -b vite build",
     "start": "vite preview",
+    "predeploy": "cat dist/index.html > dist/404.html",
     "deploy": "gh-pages -d dist --nojekyll -r https://github.com/voxelen/voxelen.github.io.git",
     "format": "biome format --write",
     "check": "biome check --write",

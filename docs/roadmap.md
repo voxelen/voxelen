@@ -1,117 +1,100 @@
 # Roadmap
 
-Last updated: June 2026 · Version **0.1.0** (alpha)
+Last updated: June 2026 · Version **0.2.0** (alpha)
 
 ## Status
 
-Voxelen has a working monorepo, WASM biome engine, shared constants/schemas, 
-and a minimal client that proves biome lookup in the browser.
+Voxelen has a working monorepo, WASM biome engine with generator cache, shared
+constants/schemas, a client scaffold with routing and settings, and a smoke test
+view proving biome lookup in the browser. The engine C/TS API and worker
+architecture are being redesigned before the map renderer is built.
 
-## Plan (v0.1.0 → v1.0.0)
+## Plan (v0.2.0 → v1.0.0)
 
-Single checklist — grouped by target release. Check items off as each version tags.
+### v0.2.0 — Frontend shell ✦ current
 
-### v0.1.0 — Foundation
+- [x] Rename project to Voxelen
+- [x] App layout (header, nav, responsive shell)
+- [x] Smoke test view (`getBiomeAt`)
+- [x] Settings page (theme, defaults)
+- [x] About page
+- [x] Home page UI (proper landing)
+- [x] Tag release **v0.2.0**
 
-- [x] Monorepo tooling (Bun, Turbo, TypeScript, Biome)
-- [x] cubiomes submodule ([xpple/cubiomes](https://github.com/xpple/cubiomes))
-- [x] WASM engine: generator cache + `getBiomeAt` (scale 1)
-- [x] `@repo/shared`: Minecraft versions, biomes, structures, dimensions, validation schemas
-- [x] Client scaffold (Vite, React, TanStack Router, Mantine)
-- [x] WASM integration in client (`useBiomeAt`, engine provider)
-- [x] Dynamic PWA manifest (`useDynamicPWA`, route-aware)
-- [x] GitHub Pages deploy (`/seed-atlas` base path)
-- [x] Docker multi-stage build and CI workflow
-- [x] Project docs (README, architecture, cubiomes integration, roadmap)
-- [x] Bump version to **0.1.0** and publish GitHub pre-release
+### v0.3.0 — Engine & worker foundation
 
-### v0.2.0 — Frontend shell
+- [ ] Finalize C function signatures: `render_tile`, `render_markers`, `search_targets`, `free_buffer`
+- [ ] Implement and compile all C exports with binary buffer protocol
+- [ ] `engine.worker.ts`: WASM loaded in worker, message dispatch with correlation IDs
+- [ ] Refactor `WasmEngineProvider` to use worker, expose promise-based API
+- [ ] Update `EXPORTS` registry and `engine.ts` methods for all new C functions
+- [ ] Smoke test updated to verify worker round-trip
 
-- [x] Rename project to `Voxelen`
-- [x] Point GitHub Pages to the new repo
-- [x] Update package metadata and any hard-coded URLs in README / CI / docs
-- [ ] App layout (header, nav, responsive shell)
-- [ ] Home page UI (proper landing)
-- [ ] Settings page (placeholders OK: theme, defaults, future prefs)
-- [ ] Smoke test page
-- [ ] About page
-- [ ] Tag release **v0.2.0**
+### v0.4.0 — Canvas & viewport
 
-### v0.3.0 — Shared layer & engine alignment
+- [ ] Viewport state: `centerX`, `centerZ`, `zoom` (pixels per block)
+- [ ] `usePanZoom`: mouse drag, wheel zoom, pinch-to-zoom, zoom anchored to cursor/pinch midpoint
+- [ ] Canvas fills container with `ResizeObserver`
+- [ ] Debug text overlay: live viewport state (center coords, zoom, derived scale)
 
-- [ ] dimension-gated biomes, structures and controls
-- [ ] Wire `isLargeBiome` through engine `prepare` / cubiomes world type
-- [ ] Finalize `MapRequest` / `MapResponse` and `FinderRequest` / `FinderResponse` against engine capabilities
-- [ ] Engine export registry ready for new C bindings (`EXPORTS` + `createWasmEngine` methods)
+### v0.5.0 — Map renderer
 
-### v0.4.0 — Core map UI controls
+- [ ] All map controls: seed input (int64-safe), version, dimension, biome height, `isLargeBiome`
+- [ ] Structure multiselect (which markers to render)
+- [ ] Biome highlight multiselect
+- [ ] `render_tile` wired to canvas: biome color lookup, highlighted biome layer
+- [ ] `render_markers` wired to canvas: structure markers rendered on top of tiles
+- [ ] Tile cache with LRU eviction
+- [ ] Center-outward tile render queue, cancel in-flight requests on viewport change
+- [ ] Zoom level → cubiomes scale mapping (1 / 4 / 16 / 64 / 256)
+- [ ] Coordinate readout on hover (block X/Z, chunk)
+- [ ] Click marker → info popup (type, coord, distance from origin)
+- [ ] Dimension-gated and version-gated controls, biomes, and structures
 
-- [ ] Seed input (string / int64-safe)
-- [ ] Minecraft version, dimension, and biome height controls
-- [ ] Large biomes toggle
-- [ ] Origin / center coordinate input
-- [ ] Structure layer toggles (`enabledStructures`)
-- [ ] Highlight selected biomes on the map (`highlightedBiomes`)
-- [ ] Structure markers on map from finder results
-- [ ] Coordinate readout (cursor block X/Z, optional chunk)
+### v0.6.0 — Map polish
 
-### v0.5.0 — Biome map (engine + renderer)
+- [ ] Optional chunk/block grid overlay (adapts to zoom level)
+- [ ] Nether and End dimension defaults (roof Y, scale quirks)
+- [ ] `isLargeBiome` wired through engine `prepare` / cubiomes world flags
+- [ ] Coordinate jump input (pan to X/Z)
+- [ ] Map screenshot export
 
-- [ ] Add core map rendering controls and forms
-- [ ] WASM export `genBiomes` wrapping cubiomes `genBiomes` + `Range`
-- [ ] Discrete `view.zoom` to cubiomes scale (1 / 4 / 16 / 64 / 256) and sampleY
-- [ ] TS API: `engine.genBiomes(MapRequest)` to return `MapResponse`
-- [ ] Canvas (or WebGL) renderer using biome ids and colors
-- [ ] Viewport pan and zoom with debounced re-fetch
-- [ ] Use ids to get tooltip info on hover / click
+### v0.7.0 — Finder
 
-### v0.6.0 — Structure & biome finders (engine)
+- [ ] `search_targets` C + TS: biome finder, structure finder, stronghold special case
+- [ ] Paginated results with distance, sorted nearest-first
+- [ ] Biome finder UI panel
+- [ ] Structure finder UI panel
+- [ ] Jump-to-result: pan map to target coord, drop temporary marker
+- [ ] Loading, empty, and error states
 
-- [ ] Enable `finders.c` in WASM build with acceptable bundle size
-- [ ] Web Worker for finder searches (keep main thread responsive)
-- [ ] WASM exports for structure positions (generic finder API)
-- [ ] WASM exports for biome finder (cubiomes biome search)
-- [ ] Stronghold finder (special-case cubiomes API)
-- [ ] TS API: `engine.find(FinderRequest)` → `FinderResponse`
-- [ ] Pagination and radius limits enforced in worker
+### v0.8.0 — Performance & accuracy
 
-### v0.7.0 — Finder UI
-
-- [ ] Biome finder panel (pick biome, radius, paginated results)
-- [ ] Structure finder panel (pick structure, radius, paginated results)
-- [ ] Jump-to-result on map (pan center, drop marker)
-- [ ] Result list with distance and recommended zoom
-- [ ] Empty, loading, and error states for long searches
-
-### v0.8.0 — Map polish & accuracy
-
-- [ ] Optional grid overlay (chunk or block grid — client-side)
-- [ ] Dimension-specific defaults (Nether roof Y, End, etc.)
-- [ ] Version-gated biomes, structures and controls
-- [ ] Optional terrain / surface-height overlay (TS approximation; not full block gen)
-- [ ] Performance: tile cache, cancel in-flight map requests on pan/zoom
+- [ ] Tile throughput profiling and tuning (scale, batch size, worker concurrency)
+- [ ] Acceptable WASM load time and finder performance on mid-range hardware
+- [ ] Optional terrain/height overlay (TS approximation)
+- [ ] Stress test across all dimensions and version ranges
 
 ### v0.9.0 — Cross-platform (Tauri)
 
 - [ ] Tauri shell wrapping the web client
-- [ ] Desktop builds (Linux, macOS, Windows)
-- [ ] Mobile-friendly layout and touch pan/zoom refinements
-- [ ] Shared engine bundle between web and desktop builds
-- [ ] Deep link / URL state for seed, version, coords, and map view
+- [ ] Desktop builds: Linux, macOS, Windows
+- [ ] Mobile builds: iOS, Android (Tauri mobile)
+- [ ] Touch pan/zoom refinements for mobile viewports
+- [ ] Shared engine WASM bundle across web and all native targets
+- [ ] URL/deep link state for seed, version, coords, and viewport
 
 ### v1.0.0 — Stable release
 
-- [ ] Ore / block finders (where cubiomes exposes them)
-- [ ] Export / share map screenshot or seed summary
+- [ ] Ore/block finders (where cubiomes exposes them)
 - [ ] Bump cubiomes submodule as new MC versions land upstream
-- [ ] Stable public engine + shared API (breaking changes require migration note)
-- [ ] Complete UI for map, finders, and search context on all three dimensions
-- [ ] Acceptable WASM load time and finder performance on mid-range hardware
-- [ ] Contributor docs and issue templates in good shape
-- [ ] Tagged release **v1.0.0**, changelog, and demo deploy aligned with version
+- [ ] Full dimension coverage: Overworld, Nether, End
+- [ ] Stable public engine + shared API (breaking changes → migration note)
+- [ ] Contributor docs and issue templates
+- [ ] Tagged **v1.0.0**, changelog, demo deploy
 
 ## Non-goals (for now)
 
 - Full block-level world generation or heightmap parity
-- Chest loot editing inside the cubiomes submodule from this repo
+- Chest loot editing inside the cubiomes submodule
 - Server-side seed processing (everything runs client-side via WASM)
