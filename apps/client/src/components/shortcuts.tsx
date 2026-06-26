@@ -1,4 +1,5 @@
 import {
+  Card,
   Divider,
   Group,
   Kbd,
@@ -14,6 +15,7 @@ import { atom } from "jotai";
 import { useAtom } from "jotai/react";
 import { Fragment } from "react";
 import { Iconify } from "./iconify";
+import { useNavBar } from "./navbar";
 
 const state = atom(false);
 
@@ -34,7 +36,7 @@ export const ShortcutsToggle = () => {
   return (
     <Menu.Item
       onClick={() => setOpened(!opened)}
-      leftSection={<Iconify width={20} icon="solar:keyboard-bold" />}
+      leftSection={<Iconify icon="solar:keyboard-bold" />}
     >
       Keyboard Shortcuts
     </Menu.Item>
@@ -45,23 +47,25 @@ export const ShortcutsView = () => {
   const navigate = useNavigate();
   const [opened, setOpened] = useAtom(state);
   const { toggleColorScheme } = useMantineColorScheme();
+  const [navbarOpened, setNavbarOpened] = useNavBar();
 
   useHotkeys([
-    ["mod + /", () => setOpened(!opened)],
-    ["mod + .", () => navigate({ href: "/settings" })],
     ["mod + j", toggleColorScheme],
+    ["mod + .", () => navigate({ href: "/settings" })],
+    ["mod + b", () => setNavbarOpened(!navbarOpened)],
+    ["mod + /", () => setOpened(!opened)],
   ]);
 
   const shortcuts = [
-    { label: "Open Search", keys: ["⌘", "K"] },
     { label: "Toggle Theme", keys: ["⌘", "J"] },
     { label: "Open Settings", keys: ["⌘", "."] },
+    { label: "Toggle Navbar", keys: ["⌘", "B"] },
     { label: "Keyboard Shortcuts", keys: ["⌘", "/"] },
   ];
 
   return (
     <Modal title="Keyboard Shortcuts" opened={opened} onClose={() => setOpened(false)}>
-      <Stack gap={15}>
+      <Stack component={Card} gap={15}>
         {shortcuts.map((shortcut, index) => (
           <Fragment key={shortcut.label}>
             {index > 0 && <Divider />}

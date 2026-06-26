@@ -18,7 +18,7 @@ export const ThemeSwitcher = () => {
   const currentIndex = schemes.indexOf(curentScheme as (typeof schemes)[0]);
 
   return (
-    <ActionIcon onClick={() => setColorScheme(schemes[(currentIndex + 1) % 3].value)} size="lg">
+    <ActionIcon onClick={() => setColorScheme(schemes[(currentIndex + 1) % 3].value)}>
       {curentScheme?.icon}
     </ActionIcon>
   );
