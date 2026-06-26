@@ -23,12 +23,12 @@ architecture are being redesigned before the map renderer is built.
 
 ### v0.3.0 — Engine & worker foundation
 
-- [ ] Finalize C function signatures: `render_tile`, `render_markers`, `search_targets`, `free_buffer`
-- [ ] Implement and compile all C exports with binary buffer protocol
-- [ ] `engine.worker.ts`: WASM loaded in worker, message dispatch with correlation IDs
-- [ ] Refactor `WasmEngineProvider` to use worker, expose promise-based API
-- [ ] Update `EXPORTS` registry and `engine.ts` methods for all new C functions
-- [ ] Smoke test updated to verify worker round-trip
+- [x] Finalize C function signatures: `render_tile`, `render_markers`, `search_targets`, `free_buffer`
+- [x] Implement and compile all C exports with binary buffer protocol
+- [x] `engine.worker.ts`: WASM loaded in worker, message dispatch with correlation IDs
+- [x] Refactor `WasmEngineProvider` to use worker, expose promise-based API
+- [x] Update `EXPORTS` registry and `engine.ts` methods for all new C functions
+- [x] Smoke test updated to verify worker round-trip
 
 ### v0.4.0 — Canvas & viewport
 
