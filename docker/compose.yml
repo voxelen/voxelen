@@ -2,5 +2,5 @@ services:
   voxelen:
     image: ghcr.io/voxelen/voxelen:latest
     ports:
-      - 8080:8000
+      - 8000:8000
     restart: unless-stopped
