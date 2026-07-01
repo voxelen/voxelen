@@ -1,5 +1,5 @@
 import { useDebouncedValue } from "@mantine/hooks";
-import { MAP_CORE } from "@repo/shared/constants";
+import { MAP_CONTROLS } from "@repo/shared/constants";
 import { useAtom } from "jotai/react";
 import * as store from "../store";
 
@@ -16,14 +16,14 @@ export const useMapControls = () => {
   const [biomes, setBiomes] = useAtom(store.biomesAtom);
 
   const reset = () => {
-    setSeed(MAP_CORE.seed);
-    setVersionId(MAP_CORE.versionId);
-    setDimension(MAP_CORE.dimension);
-    setIsLargeBiome(MAP_CORE.isLargeBiome);
-    setCoordinates(MAP_CORE.coordinates);
-    setBiomeHeight(MAP_CORE.biomeHeight);
-    setStructures(MAP_CORE.structures);
-    setBiomes(MAP_CORE.biomes);
+    setSeed(MAP_CONTROLS.seed);
+    setVersionId(MAP_CONTROLS.versionId);
+    setDimension(MAP_CONTROLS.dimension);
+    setIsLargeBiome(MAP_CONTROLS.isLargeBiome);
+    setCoordinates(MAP_CONTROLS.coordinates);
+    setBiomeHeight(MAP_CONTROLS.biomeHeight);
+    setStructures(MAP_CONTROLS.structures);
+    setBiomes(MAP_CONTROLS.biomes);
   };
 
   return {

@@ -1,2 +1,2 @@
-export * from "./map-core";
+export * from "./map-manager";
 export * from "./minecraft";

@@ -153,7 +153,7 @@ export const BIOMES: Biome[] = [
   { id: 185, label: "Cherry Grove", dimension: 0, color: "#FF91C8" },
   { id: 186, label: "Pale Garden", dimension: 0, color: "#696D95" },
   { id: 187, label: "Sulfur Caves", dimension: 0, color: "#C8D232" },
-];
+].sort((a, b) => a.label.localeCompare(b.label));
 
 // TODO: add mc version released in
 export type Structure = { id: number; label: string; dimension: number };
@@ -179,8 +179,8 @@ export const STRUCTURES: Structure[] = [
   { id: 19, label: "Bastion Remnant", dimension: -1 },
   { id: 20, label: "End City", dimension: 1 },
   { id: 21, label: "End Gateway", dimension: 1 },
-  { id: 22, label: "End Island", dimension: 1 },
+  // { id: 22, label: "End Island", dimension: 1 },
   { id: 23, label: "Trail Ruins", dimension: 0 },
   { id: 24, label: "Trial Chambers", dimension: 0 },
   { id: 25, label: "Stronghold", dimension: 0 },
-];
+].sort((a, b) => a.label.localeCompare(b.label));

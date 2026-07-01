@@ -1,4 +1,4 @@
-export const MAP_CORE = {
+export const MAP_CONTROLS = {
   seed: "-410552751819709174",
   versionId: 34,
   dimension: 0,
@@ -7,4 +7,12 @@ export const MAP_CORE = {
   biomeHeight: 256,
   structures: [] as number[],
   biomes: [] as number[],
+};
+
+export const SEARCH = {
+  biomeId: 37,
+  structureId: 17,
+  radius: 2048,
+  limit: 20,
+  page: 1,
 };
