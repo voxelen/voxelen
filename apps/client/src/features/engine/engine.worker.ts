@@ -77,6 +77,7 @@ self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
       }
     }
   } catch (err) {
+    console.error(err);
     self.postMessage({ id, error: String(err) } satisfies WorkerResponse);
   }
 };

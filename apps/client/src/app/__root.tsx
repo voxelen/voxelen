@@ -1,6 +1,7 @@
 import { LoadingOverlay } from "@mantine/core";
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
-import { Layout } from "@/components/layout";
+import { ScrollTop } from "@/components/scroll-top";
+import { ShortcutsView } from "@/components/shortcuts";
 import { MANIFEST } from "@/features/const";
 import { useDynamicPWA } from "@/hooks/use-dynamic-pwa";
 
@@ -12,9 +13,9 @@ export const Route = createRootRoute({
     return (
       <>
         <HeadContent />
-        <Layout>
-          <Outlet />
-        </Layout>
+        <Outlet />
+        <ShortcutsView />
+        <ScrollTop />
         <Scripts />
       </>
     );

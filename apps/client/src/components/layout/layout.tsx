@@ -1,12 +1,8 @@
 import { AppShell } from "@mantine/core";
-import { useLocation } from "@tanstack/react-router";
 import { NavBar, NavbarToggle, useNavBar } from "../navbar";
-import { ScrollTop } from "../scroll-top";
-import { ShortcutsView } from "../shortcuts";
 
 export const Layout = ({ children }: { children?: React.ReactNode }) => {
   const [opened] = useNavBar();
-  const disabled = useLocation().pathname !== "/";
   const navbar = {
     width: 400,
     collapsed: { mobile: !opened, desktop: !opened },
@@ -14,14 +10,10 @@ export const Layout = ({ children }: { children?: React.ReactNode }) => {
   };
 
   return (
-    <AppShell h="100%" navbar={navbar} disabled={disabled}>
+    <AppShell h="100%" navbar={navbar}>
       <NavBar />
-      {!disabled && <NavbarToggle />}
-      <AppShell.Main h="100%">
-        {children}
-        <ShortcutsView />
-        <ScrollTop />
-      </AppShell.Main>
+      <NavbarToggle />
+      <AppShell.Main h="100%">{children}</AppShell.Main>
     </AppShell>
   );
 };

@@ -1,17 +1,18 @@
 import { Icon, type IconifyIcon, type IconProps, loadIcon } from "@iconify/react";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 export type $Iconify = IconProps & { icon: string };
 
 export const Iconify = ({ icon, ...props }: $Iconify) => {
-  const [data, setData] = useState<Required<IconifyIcon> | string>("");
-  useMemo(() => iconLoader(icon).then(setData), [icon]);
+  const [data, setData] = useState<string | IconifyIcon>("");
+
+  useEffect(() => void iconLoader(icon).then(setData), [icon]);
 
   return <Icon width={20} {...props} icon={data} />;
 };
 
-const iconLoader = async (icon: string) =>
-  new Promise<Required<IconifyIcon>>((resolve) => {
+const iconLoader = (icon: string) =>
+  new Promise<IconifyIcon>((resolve) => {
     const cached = localStorage.getItem(`iconify$${icon}`);
     if (cached) return resolve(JSON.parse(cached));
     loadIcon(icon).then((data) => {
