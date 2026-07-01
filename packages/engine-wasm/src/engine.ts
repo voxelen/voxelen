@@ -64,6 +64,13 @@ function parseTargets(tools: WasmTools, ptr: number, count: number, offset: numb
   return targets;
 }
 
+function readCString(tools: WasmTools, ptr: number): string {
+  const heap = new Uint8Array(tools.HEAP32.buffer);
+  let end = ptr;
+  while (heap[end]) end++;
+  return new TextDecoder().decode(heap.slice(ptr, end));
+}
+
 // ===== Zoom → cubiomes scale =====
 // Refined in v0.5.0 when tile renderer is built.
 // zoom = pixels per block.
@@ -193,16 +200,25 @@ export async function createWasmEngine() {
 
       const total = tools.HEAP32[(ptr >> 2) + 0];
       const count = tools.HEAP32[(ptr >> 2) + 1];
-      const targets = parseTargets(tools, ptr, count, 2);
+      const detailPtr = tools.HEAP32[(ptr >> 2) + 2];
+      const detailList = detailPtr ? readCString(tools, detailPtr).split("|") : [];
+      const targets = parseTargets(tools, ptr, count, 3);
       module.free_buffer(ptr);
 
       const cx = req.coordinates.x;
       const cz = req.coordinates.z;
 
       return {
-        results: targets.map((t) => ({
+        results: targets.map((t, i) => ({
           ...t,
-          distance: Math.sqrt((t.coord.x - cx) ** 2 + (t.coord.z - cz) ** 2),
+          distance: Number(Math.sqrt((t.coord.x - cx) ** 2 + (t.coord.z - cz) ** 2).toFixed(0)),
+          attributes: (detailList[i] ?? "")
+            .split(":")
+            .filter(Boolean)
+            .map((pair) => {
+              const [key, value] = pair.split("=");
+              return { key, value: value ?? "" };
+            }),
         })),
         meta: {
           total,
